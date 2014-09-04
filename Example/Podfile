@@ -1,0 +1,10 @@
+target 'STKWebKitViewController', :exclusive => true do
+  pod "STKWebKitViewController", :path => "../"
+end
+
+target 'Tests', :exclusive => true do
+  pod "STKWebKitViewController", :path => "../"
+
+  pod 'Specta', '~> 0.2.1'
+  pod 'Expecta'
+end
