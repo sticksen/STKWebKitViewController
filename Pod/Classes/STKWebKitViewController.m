@@ -14,18 +14,33 @@
 @property(nonatomic) UIColor *savedNavigationbarTintColor;
 @property(nonatomic) UIColor *savedToolbarTintColor;
 
+@property(nonatomic) NSURL *url;
+
+@property (nonatomic) BOOL toolbarWasHidden;
 @end
 
 @implementation STKWebKitViewController
 
 - (instancetype)init
 {
-    if (self = [super init]) {
-        self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-        [self.view addSubview:self.webView];
+    if (self = [self initWithURL:nil]) {
     }
     return self;
 }
+
+- (instancetype)initWithAddress:(NSString *)urlString
+{
+    return [self initWithURL:[NSURL URLWithString:urlString]];
+}
+
+- (instancetype)initWithURL:(NSURL *)url
+{
+    self.url = url;
+    if (self = [super init]) {
+        _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+        [self.view addSubview:self.webView];
+    }
+    return self;}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -34,6 +49,7 @@
     NSAssert(self.navigationController, @"STKWebKitViewController needs to be contained in a UINavigationController. If you are presenting STKWebKitViewController modally, use STKModalWebKitViewController instead.");
 
     [self.view setNeedsUpdateConstraints];
+    self.toolbarWasHidden = self.navigationController.isToolbarHidden;
     [self.navigationController setToolbarHidden:NO animated:YES];
     [self fillToolbar];
     
@@ -51,6 +67,10 @@
     
     [self addObserver:self forKeyPath:@"webView.title" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"webView.loading" options:NSKeyValueObservingOptionNew context:NULL];
+
+    if (self.url) {
+        [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -63,10 +83,16 @@
     [super viewWillDisappear:animated];
     
     self.navigationController.navigationBar.barTintColor = self.savedNavigationbarTintColor;
-    self.navigationController.toolbar.barTintColor = self.savedToolbarTintColor;
-
+    [self.navigationController setToolbarHidden:self.toolbarWasHidden];
+    
     [self removeObserver:self forKeyPath:@"webView.title"];
     [self removeObserver:self forKeyPath:@"webView.loading"];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.navigationController.toolbar.barTintColor = self.savedToolbarTintColor;
 }
 
 - (void)fillToolbar
@@ -144,7 +170,8 @@
 
 - (void)shareTapped:(UIBarButtonItem *)button
 {
-    
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url, self.title] applicationActivities:self.applicationActivities];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 @end
