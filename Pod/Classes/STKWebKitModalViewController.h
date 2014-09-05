@@ -10,8 +10,10 @@
 
 @interface STKWebKitModalViewController : UINavigationController
 
+- (instancetype)initWithURL:(NSURL *)url;
+- (instancetype)initWithURL:(NSURL *)url userScript:(WKUserScript *)script NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithAddress:(NSString *)urlString;
-- (instancetype)initWithURL:(NSURL *)url NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAddress:(NSString *)string userScript:(WKUserScript *)script;
 
 @property (nonatomic, readonly) STKWebKitViewController *webKitViewController;
 

@@ -32,12 +32,21 @@
 
 - (instancetype)initWithURL:(NSURL *)url
 {
-    _webKitViewController = [[STKWebKitViewController alloc] initWithURL:url];
+    return [self initWithURL:url userScript:nil];
+}
+
+- (instancetype)initWithAddress:(NSString *)string userScript:(WKUserScript *)script
+{
+    return [self initWithURL:[NSURL URLWithString:string] userScript:script];
+}
+
+- (instancetype)initWithURL:(NSURL *)url userScript:(WKUserScript *)script
+{
+    _webKitViewController = [[STKWebKitViewController alloc] initWithURL:url userScript:script];
     if (self = [super initWithRootViewController:self.webKitViewController]) {
     }
     return self;
 }
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
