@@ -9,8 +9,8 @@
 
 Pod::Spec.new do |s|
   s.name             = "STKWebKitViewController"
-  s.version          = "0.1.0"
-  s.summary          = "Using WKWebView if iOS8´s powerful WebKit"
+  s.version          = "0.1.1"
+  s.summary          = "Using WKWebView of iOS8´s powerful WebKit"
   s.description      = <<-DESC
   Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                        DESC
