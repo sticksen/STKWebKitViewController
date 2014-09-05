@@ -37,6 +37,7 @@
 {
     self.url = url;
     if (self = [super init]) {
+        NSAssert([[UIDevice currentDevice].systemVersion floatValue] >= 8.0, @"WKWebView is available since iOS8. Use UIWebView, if you´re running an older version");
         _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
         [self.view addSubview:self.webView];
     }
