@@ -9,10 +9,10 @@
 
 Pod::Spec.new do |s|
   s.name             = "STKWebKitViewController"
-  s.version          = "0.1.1"
-  s.summary          = "Using WKWebView of iOS8´s powerful WebKit"
+  s.version          = "0.1.2"
+  s.summary          = "Provides a wrapping UIViewController and UINavigationController for WKWebView"
   s.description      = <<-DESC
-  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+This project provides a wrapping UIViewController around Apple´s new WKWebView, available as of iOS8 in WebKit. Also included is a wrapping UINavigationController to present the WKWebView modally.
                        DESC
   s.homepage         = "https://github.com/sticksen/STKWebKitViewController"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
@@ -21,15 +21,11 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/sticksen/STKWebKitViewController.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/sticksen'
 
-  s.platform     = :ios, '2.0'
+  s.platform     = :ios
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes'
-  s.resource_bundles = {
-    'STKWebKitViewController' => ['Pod/Assets/*.png']
-  }
+  s.resources = ['Pod/Assets/**/*.png']
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit', 'WebKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
