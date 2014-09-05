@@ -1,6 +1,5 @@
 # STKWebKitViewController
 
-[![CI Status](http://img.shields.io/travis/Marc/STKWebKitViewController.svg?style=flat)](https://travis-ci.org/Marc/STKWebKitViewController)
 [![Version](https://img.shields.io/cocoapods/v/STKWebKitViewController.svg?style=flat)](http://cocoadocs.org/docsets/STKWebKitViewController)
 [![License](https://img.shields.io/cocoapods/l/STKWebKitViewController.svg?style=flat)](http://cocoadocs.org/docsets/STKWebKitViewController)
 [![Platform](https://img.shields.io/cocoapods/p/STKWebKitViewController.svg?style=flat)](http://cocoadocs.org/docsets/STKWebKitViewController)
@@ -20,7 +19,7 @@ it, simply add the following line to your Podfile:
 
 ## Author
 
-Marc, ***REMOVED***
+sticksen, sticki@sticki.de
 
 ## License
 
