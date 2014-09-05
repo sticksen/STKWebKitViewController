@@ -41,7 +41,34 @@
         _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
         [self.view addSubview:self.webView];
     }
-    return self;}
+    return self;
+}
+
+- (instancetype)initWithURL:(NSURL *)url userScript:(WKUserScript *)script
+{
+    if (self = [self initWithURL:url]) {
+        if (script) {
+            WKUserContentController *userContentController = [[WKUserContentController alloc] init];
+            [userContentController addUserScript:script];
+            WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+            configuration.userContentController = userContentController;
+            _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
+        } else {
+            _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+        }
+        [self.view addSubview:_webView];
+    }
+    return self;
+}
+
+- (instancetype)initWithAddress:(NSString *)string userScript:(WKUserScript *)script
+{
+    if (self = [self initWithURL:[NSURL URLWithString:string] userScript:script]){
+
+    }
+    return self;
+}
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -68,6 +95,7 @@
     
     [self addObserver:self forKeyPath:@"webView.title" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"webView.loading" options:NSKeyValueObservingOptionNew context:NULL];
+    [self addObserver:self forKeyPath:@"webView.estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
 
     if (self.url) {
         [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
@@ -85,15 +113,16 @@
     
     self.navigationController.navigationBar.barTintColor = self.savedNavigationbarTintColor;
     [self.navigationController setToolbarHidden:self.toolbarWasHidden];
+    self.navigationController.toolbar.barTintColor = self.savedToolbarTintColor;
     
     [self removeObserver:self forKeyPath:@"webView.title"];
     [self removeObserver:self forKeyPath:@"webView.loading"];
+    [self removeObserver:self forKeyPath:@"webView.estimatedProgress"];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    self.navigationController.toolbar.barTintColor = self.savedToolbarTintColor;
 }
 
 - (void)fillToolbar
@@ -130,6 +159,8 @@
         self.title = change[@"new"];
     } else if ([keyPath isEqualToString:@"webView.loading"]) {
         [self fillToolbar];
+    } else if ([keyPath isEqualToString:@"webView.estimatedProgress"]) {
+
     }
 }
 

@@ -16,8 +16,11 @@
 
 - (instancetype)initWithAddress:(NSString *)urlString;
 - (instancetype)initWithURL:(NSURL *)url NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithURL:(NSURL *)url userScript:(WKUserScript *)script;
+- (instancetype)initWithAddress:(NSString *)string userScript:(WKUserScript *)script;
 
 @property(nonatomic, readonly) WKWebView *webView;
+
 @property(nonatomic) UIColor *toolbarTintColor;
 @property(nonatomic) UIColor *navigationBarTintColor;
 
