@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 This project provides a wrapping UIViewController around Apple´s new WKWebView, available as of iOS8 in WebKit. Also included is a wrapping UINavigationController to present the WKWebView modally.
                        DESC
   s.homepage         = "https://github.com/sticksen/STKWebKitViewController"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
+  s.screenshots     = "http://sticki.de/github/STKWebKitViewController/1.png", "http://sticki.de/github/STKWebKitViewController/2.png"
   s.license          = 'MIT'
   s.author           = { "Marc" => "sticki@sticki.de" }
   s.source           = { :git => "https://github.com/sticksen/STKWebKitViewController.git", :tag => s.version.to_s }

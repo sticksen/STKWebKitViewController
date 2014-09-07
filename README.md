@@ -4,6 +4,9 @@
 ![License](https://img.shields.io/cocoapods/l/STKWebKitViewController.svg?style=flat)
 ![Platform](https://img.shields.io/cocoapods/p/STKWebKitViewController.svg?style=flat)
 
+![STKWebKitViewController](http://sticki.de/github/STKWebKitViewController/1.png)
+![STKWebKitViewController](http://sticki.de/github/STKWebKitViewController/2.png)
+
 ## Description
 
 This project provides a wrapping [`UIViewController`][UIViewController] around Apple´s new [`WKWebView`][WKWebView], available as of iOS8 in [`WebKit`][WebKit]. Also included is a wrapping [`UINavigationController`][UINavigationController] to present the [`WKWebView`][WKWebView] modally.
@@ -13,17 +16,21 @@ This project provides a wrapping [`UIViewController`][UIViewController] around A
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 To push a [`WKWebView`][WKWebView] onto your [`UINavigationController`][UINavigationController], do:
-	
-    NSURL *url = [NSURL URLWithString:@"https://github.com/sticksen/STKWebKitViewController"];
-    STKWebKitViewController *controller = [[STKWebKitViewController alloc] initWithURL:url];
-    [self.navigationController pushViewController:controller animated:YES];
-	
+
+```objc	
+NSURL *url = [NSURL URLWithString:@"https://github.com/sticksen/STKWebKitViewController"];
+STKWebKitViewController *controller = [[STKWebKitViewController alloc] initWithURL:url];
+[self.navigationController pushViewController:controller animated:YES];
+```
+
 To open it modally:
 
-	NSURL *url = [NSURL URLWithString:@"https://github.com/sticksen/STKWebKitViewController"];
-	STKWebKitModalViewController *controller = [[STKWebKitModalViewController alloc] initWithURL:url];
-	[self presentViewController:controller animated:YES completion:nil];
-	
+```objective-c
+NSURL *url = [NSURL URLWithString:@"https://github.com/sticksen/STKWebKitViewController"];
+STKWebKitModalViewController *controller = [[STKWebKitModalViewController alloc] initWithURL:url];
+[self presentViewController:controller animated:YES completion:nil];
+```
+
 It´s also possible to customize the NavigationBar and Toolbar colors.
 
 ## Requirements
@@ -39,7 +46,9 @@ it, simply add the following line to your Podfile:
 	
 Then include the Header somewhere in your project:
 
-	#import <STKWebKitViewController/STKWebKitViewController.h>
+```objc
+#import <STKWebKitViewController/STKWebKitViewController.h>
+```
 		
 ## Author
 
