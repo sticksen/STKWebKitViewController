@@ -39,6 +39,7 @@
     if (self = [super init]) {
         NSAssert([[UIDevice currentDevice].systemVersion floatValue] >= 8.0, @"WKWebView is available since iOS8. Use UIWebView, if you´re running an older version");
         _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+        _webView.navigationDelegate = self;
         [self.view addSubview:self.webView];
     }
     return self;
@@ -204,6 +205,20 @@
 {
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url, self.title] applicationActivities:self.applicationActivities];
     [self presentViewController:controller animated:YES completion:nil];
+}
+
+#pragma mark -
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+{
+    if (!navigationAction.targetFrame) { //this is a 'new window action' (aka target="_blank") > open this URL externally. If we´re doing nothing here, WKWebView will also just do nothing. Maybe this will change in a later stage of the iOS 8 Beta
+        NSURL *url = navigationAction.request.URL;
+        UIApplication *app = [UIApplication sharedApplication];
+        if ([app canOpenURL:url]) {
+            [app openURL:url];
+        }
+    }
+    decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 @end
