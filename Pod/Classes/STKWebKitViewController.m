@@ -38,9 +38,11 @@
     self.url = url;
     if (self = [super init]) {
         NSAssert([[UIDevice currentDevice].systemVersion floatValue] >= 8.0, @"WKWebView is available since iOS8. Use UIWebView, if you´re running an older version");
-        _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-        _webView.navigationDelegate = self;
-        [self.view addSubview:self.webView];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+            _webView.navigationDelegate = self;
+            [self.view addSubview:self.webView];
+        });
     }
     return self;
 }
@@ -48,16 +50,18 @@
 - (instancetype)initWithURL:(NSURL *)url userScript:(WKUserScript *)script
 {
     if (self = [self initWithURL:url]) {
-        if (script) {
-            WKUserContentController *userContentController = [[WKUserContentController alloc] init];
-            [userContentController addUserScript:script];
-            WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
-            configuration.userContentController = userContentController;
-            _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
-        } else {
-            _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-        }
-        [self.view addSubview:_webView];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (script) {
+                WKUserContentController *userContentController = [[WKUserContentController alloc] init];
+                [userContentController addUserScript:script];
+                WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+                configuration.userContentController = userContentController;
+                _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
+            } else {
+                _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+            }
+            [self.view addSubview:_webView];
+        });
     }
     return self;
 }
@@ -69,7 +73,6 @@
     }
     return self;
 }
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -93,7 +96,7 @@
     if (self.navigationBarTintColor) {
         self.navigationController.navigationBar.barTintColor = self.navigationBarTintColor;
     }
-    
+
     [self addObserver:self forKeyPath:@"webView.title" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"webView.loading" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"webView.estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
@@ -115,7 +118,7 @@
     self.navigationController.navigationBar.barTintColor = self.savedNavigationbarTintColor;
     [self.navigationController setToolbarHidden:self.toolbarWasHidden];
     self.navigationController.toolbar.barTintColor = self.savedToolbarTintColor;
-    
+
     [self removeObserver:self forKeyPath:@"webView.title"];
     [self removeObserver:self forKeyPath:@"webView.loading"];
     [self removeObserver:self forKeyPath:@"webView.estimatedProgress"];
