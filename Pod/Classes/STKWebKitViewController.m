@@ -164,17 +164,6 @@
     self.webView.frame = self.view.bounds;
 }
 
-//- (void)updateViewConstraints
-//{
-//    if (self.viewConstraints) {
-//        [self.view removeConstraints:self.viewConstraints];
-//    }
-//    self.viewConstraints = [NSMutableArray array];
-//    
-//    [self.view addConstraints:self.viewConstraints];
-//    [super updateViewConstraints];
-//}
-
 - (void)backTapped:(UIBarButtonItem *)button
 {
     [self.webView goBack];
@@ -197,7 +186,7 @@
 
 - (void)shareTapped:(UIBarButtonItem *)button
 {
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url, self.title] applicationActivities:self.applicationActivities];
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.title, self.request.URL] applicationActivities:self.applicationActivities];
     [self presentViewController:controller animated:YES completion:nil];
 }
 
@@ -217,7 +206,7 @@
 
 -(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
-    [self.webView.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    [self.webView.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO]; //otherwise top of website is sometimes hidden under Navigation Bar
 }
 
 @end
