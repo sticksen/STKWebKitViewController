@@ -14,7 +14,7 @@
 @property(nonatomic) UIColor *savedNavigationbarTintColor;
 @property(nonatomic) UIColor *savedToolbarTintColor;
 
-@property(nonatomic) NSURL *url;
+@property(nonatomic) NSURLRequest *request;
 
 @property (nonatomic) BOOL toolbarWasHidden;
 @end
@@ -23,9 +23,7 @@
 
 - (instancetype)init
 {
-    if (self = [self initWithURL:nil]) {
-    }
-    return self;
+    return [self initWithURL:nil];
 }
 
 - (instancetype)initWithAddress:(NSString *)urlString
@@ -35,17 +33,30 @@
 
 - (instancetype)initWithURL:(NSURL *)url
 {
-    if (self = [self initWithURL:url userScript:nil]) {
-    }
-    return self;
+    return [self initWithURL:url userScript:nil];
 }
 
 - (instancetype)initWithURL:(NSURL *)url userScript:(WKUserScript *)script
 {
+    return [self initWithRequest:[NSURLRequest requestWithURL:url] userScript:script];
+}
+
+- (instancetype)initWithAddress:(NSString *)string userScript:(WKUserScript *)script
+{
+    return [self initWithURL:[NSURL URLWithString:string] userScript:script];
+}
+
+- (instancetype)initWithRequest:(NSURLRequest *)request
+{
+    return [self initWithRequest:request userScript:nil];
+}
+
+- (instancetype)initWithRequest:(NSURLRequest *)request userScript:(WKUserScript *)script
+{
     if (self = [super init]) {
         NSAssert([[UIDevice currentDevice].systemVersion floatValue] >= 8.0, @"WKWebView is available since iOS8. Use UIWebView, if you´re running an older version");
-
-        self.url = url;
+        
+        self.request = request;
         dispatch_async(dispatch_get_main_queue(), ^{
             if (script) {
                 WKUserContentController *userContentController = [[WKUserContentController alloc] init];
@@ -61,14 +72,7 @@
         });
     }
     return self;
-}
 
-- (instancetype)initWithAddress:(NSString *)string userScript:(WKUserScript *)script
-{
-    if (self = [self initWithURL:[NSURL URLWithString:string] userScript:script]){
-
-    }
-    return self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -98,17 +102,9 @@
     [self addObserver:self forKeyPath:@"webView.loading" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"webView.estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
 
-    if (self.url) {
-        [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
+    if (self.request) {
+        [self.webView loadRequest:self.request];
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    id<UILayoutSupport> guide = self.topLayoutGuide;
-    NSLog(@"%f", guide.length);
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -122,11 +118,6 @@
     [self removeObserver:self forKeyPath:@"webView.title"];
     [self removeObserver:self forKeyPath:@"webView.loading"];
     [self removeObserver:self forKeyPath:@"webView.estimatedProgress"];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
 }
 
 - (void)fillToolbar
