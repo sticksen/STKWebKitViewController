@@ -8,8 +8,6 @@
 
 This project provides a wrapping [`UIViewController`][UIViewController] around Apple´s new [`WKWebView`][WKWebView], available as of iOS8 in [`WebKit`][WebKit]. Also included is a wrapping [`UINavigationController`][UINavigationController] to present the [`WKWebView`][WKWebView] modally.
 
-    STKWebKitViewController and STKWebKitModalViewController can be called from any queue! 
-	When calling WKWebView directly, remember to only perform operations on the main queue, as WebKit is not thread-safe.
 ## Usage
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
