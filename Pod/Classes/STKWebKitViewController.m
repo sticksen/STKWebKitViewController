@@ -35,21 +35,17 @@
 
 - (instancetype)initWithURL:(NSURL *)url
 {
-    self.url = url;
-    if (self = [super init]) {
-        NSAssert([[UIDevice currentDevice].systemVersion floatValue] >= 8.0, @"WKWebView is available since iOS8. Use UIWebView, if you´re running an older version");
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-            _webView.navigationDelegate = self;
-            [self.view addSubview:self.webView];
-        });
+    if (self = [self initWithURL:url userScript:nil]) {
     }
     return self;
 }
 
 - (instancetype)initWithURL:(NSURL *)url userScript:(WKUserScript *)script
 {
-    if (self = [self initWithURL:url]) {
+    if (self = [super init]) {
+        NSAssert([[UIDevice currentDevice].systemVersion floatValue] >= 8.0, @"WKWebView is available since iOS8. Use UIWebView, if you´re running an older version");
+
+        self.url = url;
         dispatch_async(dispatch_get_main_queue(), ^{
             if (script) {
                 WKUserContentController *userContentController = [[WKUserContentController alloc] init];
@@ -60,6 +56,7 @@
             } else {
                 _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
             }
+            _webView.navigationDelegate = self;
             [self.view addSubview:_webView];
         });
     }
@@ -79,7 +76,7 @@
     [super viewWillAppear:animated];
     
     NSAssert(self.navigationController, @"STKWebKitViewController needs to be contained in a UINavigationController. If you are presenting STKWebKitViewController modally, use STKModalWebKitViewController instead.");
-
+    
     [self.view setNeedsUpdateConstraints];
     self.toolbarWasHidden = self.navigationController.isToolbarHidden;
     [self.navigationController setToolbarHidden:NO animated:YES];
@@ -109,6 +106,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    id<UILayoutSupport> guide = self.topLayoutGuide;
+    NSLog(@"%f", guide.length);
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -222,6 +222,11 @@
         }
     }
     decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
+    [self.webView.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
 }
 
 @end
