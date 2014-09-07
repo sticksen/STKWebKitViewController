@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/cocoapods/l/STKWebKitViewController.svg?style=flat)
 ![Platform](https://img.shields.io/cocoapods/p/STKWebKitViewController.svg?style=flat)
 
-![STKWebKitViewController](http://sticki.de/github/STKWebKitViewController/1.png)  
+![STKWebKitViewController](http://sticki.de/github/STKWebKitViewController/1.png) 
 ![STKWebKitViewController](http://sticki.de/github/STKWebKitViewController/2.png)
 
 ## Description
