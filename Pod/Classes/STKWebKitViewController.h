@@ -12,7 +12,7 @@
 #warning "This project uses features only available in iOS SDK 8.0 and later."
 #endif
 
-@interface STKWebKitViewController : UIViewController
+@interface STKWebKitViewController : UIViewController <WKNavigationDelegate>
 
 - (instancetype)initWithAddress:(NSString *)urlString;
 - (instancetype)initWithURL:(NSURL *)url NS_DESIGNATED_INITIALIZER;
