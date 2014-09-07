@@ -55,21 +55,20 @@
 {
     if (self = [super init]) {
         NSAssert([[UIDevice currentDevice].systemVersion floatValue] >= 8.0, @"WKWebView is available since iOS8. Use UIWebView, if you´re running an older version");
+        NSAssert([NSThread isMainThread], @"WebKit is not threadsafe and this function is not executed on the main thread");
         
         self.request = request;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (script) {
-                WKUserContentController *userContentController = [[WKUserContentController alloc] init];
-                [userContentController addUserScript:script];
-                WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
-                configuration.userContentController = userContentController;
-                _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
-            } else {
-                _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-            }
-            _webView.navigationDelegate = self;
-            [self.view addSubview:_webView];
-        });
+        if (script) {
+            WKUserContentController *userContentController = [[WKUserContentController alloc] init];
+            [userContentController addUserScript:script];
+            WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+            configuration.userContentController = userContentController;
+            _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
+        } else {
+            _webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+        }
+        _webView.navigationDelegate = self;
+        [self.view addSubview:_webView];
     }
     return self;
 
