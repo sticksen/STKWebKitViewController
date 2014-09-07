@@ -1,8 +1,8 @@
 # STKWebKitViewController
 
-[![Version](https://img.shields.io/cocoapods/v/STKWebKitViewController.svg?style=flat)](http://cocoadocs.org/docsets/STKWebKitViewController)
-[![License](https://img.shields.io/cocoapods/l/STKWebKitViewController.svg?style=flat)](http://cocoadocs.org/docsets/STKWebKitViewController)
-[![Platform](https://img.shields.io/cocoapods/p/STKWebKitViewController.svg?style=flat)](http://cocoadocs.org/docsets/STKWebKitViewController)
+![Version](https://img.shields.io/cocoapods/v/STKWebKitViewController.svg?style=flat)
+![License](https://img.shields.io/cocoapods/l/STKWebKitViewController.svg?style=flat)
+![Platform](https://img.shields.io/cocoapods/p/STKWebKitViewController.svg?style=flat)
 
 ## Description
 
@@ -45,7 +45,7 @@ Then include the Header somewhere in your project:
 		
 ## Author
 
-sticksen, sticki@sticki.de
+Marc, sticki@sticki.de
 
 ## License
 
