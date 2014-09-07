@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "STKWebKitViewController"
-  s.version          = "0.1.2"
+  s.version          = "0.1.3"
   s.summary          = "Provides a wrapping UIViewController and UINavigationController for WKWebView"
   s.description      = <<-DESC
 This project provides a wrapping UIViewController around Apple´s new WKWebView, available as of iOS8 in WebKit. Also included is a wrapping UINavigationController to present the WKWebView modally.
@@ -17,7 +17,7 @@ This project provides a wrapping UIViewController around Apple´s new WKWebView,
   s.homepage         = "https://github.com/sticksen/STKWebKitViewController"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
-  s.author           = { "sticksen" => "sticki@sticki.de" }
+  s.author           = { "Marc" => "sticki@sticki.de" }
   s.source           = { :git => "https://github.com/sticksen/STKWebKitViewController.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/sticksen'
 
