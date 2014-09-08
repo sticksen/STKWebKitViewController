@@ -18,16 +18,12 @@
 
 - (instancetype)init
 {
-    if (self = [self initWithURL:nil]) {
-    }
-    return self;
+    return [self initWithRequest:nil];
 }
 
 - (instancetype)initWithAddress:(NSString *)urlString
 {
-    if (self = [self initWithURL:[NSURL URLWithString:urlString]]) {
-    }
-    return self;
+    return [self initWithURL:[NSURL URLWithString:urlString]];
 }
 
 - (instancetype)initWithURL:(NSURL *)url
@@ -42,16 +38,26 @@
 
 - (instancetype)initWithURL:(NSURL *)url userScript:(WKUserScript *)script
 {
-    _webKitViewController = [[STKWebKitViewController alloc] initWithURL:url userScript:script];
-    if (self = [super initWithRootViewController:self.webKitViewController]) {
-    }
-    return self;
+    return [self initWithRequest:[NSURLRequest requestWithURL:url] userScript:script];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.webKitViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeController)];
+}
+
+- (instancetype)initWithRequest:(NSURLRequest *)request
+{
+    return [self initWithRequest:request userScript:nil];
+}
+
+- (instancetype)initWithRequest:(NSURLRequest *)request userScript:(WKUserScript *)script
+{
+    _webKitViewController = [[STKWebKitViewController alloc] initWithRequest:request userScript:script];
+    if (self = [super initWithRootViewController:self.webKitViewController]) {
+    }
+    return self;
 }
 
 
