@@ -66,4 +66,21 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+
+- (instancetype)initWithCustomWebKitControllerClass:(Class)pClass address:(NSString *)address
+{
+    if (pClass) {
+        _webKitViewController = [[pClass alloc] initWithAddress:address];
+    } else {
+        _webKitViewController = [[STKWebKitViewController alloc] initWithAddress:address];
+    }
+
+    if (self = [super initWithRootViewController:self.webKitViewController]) {
+    }
+    return self;
+}
+#pragma clang diagnostic pop
+
 @end
