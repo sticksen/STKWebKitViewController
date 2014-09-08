@@ -18,5 +18,6 @@
 - (instancetype)initWithRequest:(NSURLRequest *)request userScript:(WKUserScript *)script NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, readonly) STKWebKitViewController *webKitViewController;
+- (instancetype)initWithCustomWebKitControllerClass:(Class)pClass address:(NSString *)address;
 
 @end
