@@ -1,9 +1,9 @@
 //
 //  STKWebKitViewController.h
-//  FOCUS
+//  STKWebKitViewController
 //
-//  Created by stickbook  on 03.09.14.
-//  Copyright (c) 2014 Finanzen100 GmbH. All rights reserved.
+//  Created by Marc on 03.09.14.
+//  Copyright (c) 2014 sticksen. All rights reserved.
 //
 #import <WebKit/WebKit.h>
 @class STKWebKitViewController;
