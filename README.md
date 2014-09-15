@@ -33,6 +33,12 @@ STKWebKitModalViewController *controller = [[STKWebKitModalViewController alloc]
 
 It´s also possible to customize the NavigationBar and Toolbar colors.
 
+To use the new `UINavigationBar` and `UIToolbar` hiding features of iOS8, set your navigationController to:
+
+```objective-c
+self.navigationController.hidesBarsOnSwipe = YES;
+```
+
 ## Requirements
 
 [`WebKit`][WebKit], [`UIKit`][UIKit]
