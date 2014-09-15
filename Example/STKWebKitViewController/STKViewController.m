@@ -36,6 +36,7 @@
 - (IBAction)pushOnNavController:(UIButton *)sender {
     NSURL *url = [NSURL URLWithString:@"https://github.com/sticksen/STKWebKitViewController"];
     STKWebKitViewController *controller = [[STKWebKitViewController alloc] initWithURL:url];
+    self.navigationController.hidesBarsOnSwipe = YES;
     [self.navigationController pushViewController:controller animated:YES];
 }
 

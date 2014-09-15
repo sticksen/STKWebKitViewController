@@ -119,6 +119,16 @@
     [self removeObserver:self forKeyPath:@"webView.estimatedProgress"];
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return self.navigationController.navigationBarHidden;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
+{
+    return UIStatusBarAnimationSlide;
+}
+
 - (void)fillToolbar
 {
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backTapped:)];
