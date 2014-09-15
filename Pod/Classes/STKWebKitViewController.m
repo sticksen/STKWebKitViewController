@@ -1,9 +1,9 @@
 //
 //  STKWebKitViewController.m
-//  ***REMOVED***
+//  STKWebKitViewController
 //
-//  Created by stickbook  on 03.09.14.
-//  Copyright (c) 2014 ***REMOVED***. All rights reserved.
+//  Created by Marc on 03.09.14.
+//  Copyright (c) 2014 sticksen. All rights reserved.
 //
 
 #import "STKWebKitViewController.h"
