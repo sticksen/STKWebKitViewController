@@ -195,7 +195,14 @@
 
 - (void)shareTapped:(UIBarButtonItem *)button
 {
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.title, self.request.URL] applicationActivities:self.applicationActivities];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    if (self.title) {
+        [items addObject:self.title];
+    }
+    if (self.request.URL) {
+        [items addObject:self.request.URL];
+    }
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:self.applicationActivities];
     [self presentViewController:controller animated:YES completion:nil];
 }
 
