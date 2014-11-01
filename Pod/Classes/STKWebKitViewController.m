@@ -203,6 +203,7 @@
         [items addObject:self.request.URL];
     }
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:self.applicationActivities];
+    controller.popoverPresentationController.barButtonItem = button;
     [self presentViewController:controller animated:YES completion:nil];
 }
 
