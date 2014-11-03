@@ -31,6 +31,9 @@ STKWebKitModalViewController *controller = [[STKWebKitModalViewController alloc]
 [self presentViewController:controller animated:YES completion:nil];
 ```
 
+It is possible to change the behaviour how the WKWebView opens links that would trigger a new tab opening on desktop browsers (aka. target=_blank - links).
+To change the behaviour, adjust `newTabOpenMode` to your desired choice.
+
 It´s also possible to customize the NavigationBar and Toolbar colors.
 
 To use the new `UINavigationBar` and `UIToolbar` hiding features of iOS8, set your navigationController to:
