@@ -57,6 +57,7 @@
         NSAssert([[UIDevice currentDevice].systemVersion floatValue] >= 8.0, @"WKWebView is available since iOS8. Use UIWebView, if you´re running an older version");
         NSAssert([NSThread isMainThread], @"WebKit is not threadsafe and this function is not executed on the main thread");
         
+        self.newTabOpenMode = OpenNewTabExternal;
         self.request = request;
         if (script) {
             WKUserContentController *userContentController = [[WKUserContentController alloc] init];
@@ -211,11 +212,15 @@
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-    if (!navigationAction.targetFrame) { //this is a 'new window action' (aka target="_blank") > open this URL externally. If we´re doing nothing here, WKWebView will also just do nothing. Maybe this will change in a later stage of the iOS 8 Beta
-        NSURL *url = navigationAction.request.URL;
-        UIApplication *app = [UIApplication sharedApplication];
-        if ([app canOpenURL:url]) {
-            [app openURL:url];
+    if (!navigationAction.targetFrame) { //this is a 'new window action' (aka target="_blank") > open this URL as configured in 'self.newTabOpenMode'. If we´re doing nothing here, WKWebView will also just do nothing. Maybe this will change in a later stage of iOS 8
+        if (self.newTabOpenMode == OpenNewTabExternal) {
+            NSURL *url = navigationAction.request.URL;
+            UIApplication *app = [UIApplication sharedApplication];
+            if ([app canOpenURL:url]) {
+                [app openURL:url];
+            }
+        } else if (self.newTabOpenMode == OpenNewTabInternal) {
+            [webView loadRequest:navigationAction.request];
         }
     }
     decisionHandler(WKNavigationActionPolicyAllow);
