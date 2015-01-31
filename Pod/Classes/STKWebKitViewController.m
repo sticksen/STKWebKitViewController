@@ -7,6 +7,7 @@
 //
 
 #import "STKWebKitViewController.h"
+#import "OnePasswordExtension.h"
 
 @interface STKWebKitViewController ()
 
@@ -15,8 +16,9 @@
 @property(nonatomic) UIColor *savedToolbarTintColor;
 
 @property(nonatomic) NSURLRequest *request;
+@property(nonatomic, assign) BOOL requestLoaded;
 
-@property (nonatomic) BOOL toolbarWasHidden;
+@property (nonatomic, assign) BOOL toolbarWasHidden;
 @end
 
 @implementation STKWebKitViewController
@@ -102,7 +104,8 @@
     [self addObserver:self forKeyPath:@"webView.loading" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"webView.estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
 
-    if (self.request) {
+    if (!self.requestLoaded && self.request) {
+        self.requestLoaded = YES;
         [self.webView loadRequest:self.request];
     }
 }
@@ -155,7 +158,15 @@
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTapped:)];
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 
-    [self setToolbarItems:@[flexibleSpaceItem, backItem, flexibleSpaceItem, forwardItem, flexibleSpaceItem, reloadItem, flexibleSpaceItem, shareItem, flexibleSpaceItem] animated:NO];
+    NSMutableArray *toolbarItems = @[flexibleSpaceItem, backItem, flexibleSpaceItem, forwardItem, flexibleSpaceItem, reloadItem, flexibleSpaceItem, shareItem, flexibleSpaceItem].mutableCopy;
+    
+    if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
+        UIBarButtonItem *onePasswordItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"onepassword-toolbar"] style:UIBarButtonItemStylePlain target:self action:@selector(onePasswordTapped:)];
+        [toolbarItems insertObject:flexibleSpaceItem atIndex:0];
+        [toolbarItems insertObject:onePasswordItem atIndex:1];
+    }
+    
+    [self setToolbarItems:toolbarItems animated:NO];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -206,6 +217,15 @@
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:self.applicationActivities];
     controller.popoverPresentationController.barButtonItem = button;
     [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)onePasswordTapped:(UIBarButtonItem *)button
+{
+    [[OnePasswordExtension sharedExtension] fillLoginIntoWebView:self.webView forViewController:self sender:button completion:^(BOOL success, NSError *error) {
+        if (!success) {
+            NSLog(@"Failed to fill login in webview: %@", error);
+        }
+    }];
 }
 
 #pragma mark -

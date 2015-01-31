@@ -29,4 +29,6 @@ This project provides a wrapping UIViewController around Apple´s new WKWebView,
 
   s.frameworks = 'UIKit'
   s.weak_frameworks = 'WebKit'
+
+  s.dependency '1PasswordExtension', '~> 1.1.0'
 end
