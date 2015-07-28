@@ -19,6 +19,8 @@ typedef enum {
 
 @interface STKWebKitViewController : UIViewController <WKNavigationDelegate>
 
++ (NSBundle *)bundle;
+
 - (instancetype)initWithURL:(NSURL *)url;
 - (instancetype)initWithURL:(NSURL *)url userScript:(WKUserScript *)script;
 
