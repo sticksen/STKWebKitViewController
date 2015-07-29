@@ -21,6 +21,10 @@
 
 @implementation STKWebKitViewController
 
++ (NSBundle *)bundle{
+    return [NSBundle bundleForClass:self.class];
+}
+
 - (instancetype)init
 {
     return [self initWithURL:nil];
@@ -73,6 +77,10 @@
     }
     return self;
 
+}
+
+- (UIImage *)imageNamed:(NSString *)imageName{
+    return [UIImage imageNamed:imageName inBundle:[self.class bundle] compatibleWithTraitCollection:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -132,14 +140,14 @@
 
 - (void)fillToolbar
 {
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backTapped:)];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[self imageNamed:@"back" ] style:UIBarButtonItemStylePlain target:self action:@selector(backTapped:)];
     if (self.webView.canGoBack) {
         backItem.tintColor = nil;
     } else {
         backItem.tintColor = [UIColor lightGrayColor];
     }
     
-    UIBarButtonItem *forwardItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"forward"] style:UIBarButtonItemStylePlain target:self action:@selector(forwardTapped:)];
+    UIBarButtonItem *forwardItem = [[UIBarButtonItem alloc] initWithImage:[self imageNamed:@"forward"] style:UIBarButtonItemStylePlain target:self action:@selector(forwardTapped:)];
     if (self.webView.canGoForward) {
         forwardItem.tintColor = nil;
     } else {
@@ -148,9 +156,9 @@
     
     UIBarButtonItem *reloadItem;
     if (self.webView.isLoading) {
-        reloadItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"stop"] style:UIBarButtonItemStylePlain target:self action:@selector(stopTapped:)];
+        reloadItem = [[UIBarButtonItem alloc] initWithImage:[self imageNamed:@"stop"] style:UIBarButtonItemStylePlain target:self action:@selector(stopTapped:)];
     } else {
-        reloadItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"refresh"] style:UIBarButtonItemStylePlain target:self action:@selector(reloadTapped:)];
+        reloadItem = [[UIBarButtonItem alloc] initWithImage:[self imageNamed:@"refresh"] style:UIBarButtonItemStylePlain target:self action:@selector(reloadTapped:)];
     }
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTapped:)];
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
