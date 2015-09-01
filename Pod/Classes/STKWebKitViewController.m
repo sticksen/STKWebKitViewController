@@ -21,6 +21,16 @@
 
 @implementation STKWebKitViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    return [self initWithURL:nil];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    return [self initWithURL:nil];
+}
+
 - (instancetype)init
 {
     return [self initWithURL:nil];
@@ -53,7 +63,7 @@
 
 - (instancetype)initWithRequest:(NSURLRequest *)request userScript:(WKUserScript *)script
 {
-    if (self = [super init]) {
+    if (self = [super initWithNibName:nil bundle:nil]) {
         NSAssert([[UIDevice currentDevice].systemVersion floatValue] >= 8.0, @"WKWebView is available since iOS8. Use UIWebView, if you´re running an older version");
         NSAssert([NSThread isMainThread], @"WebKit is not threadsafe and this function is not executed on the main thread");
         
