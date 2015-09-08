@@ -172,13 +172,13 @@
     
     UIBarButtonItem *reloadItem;
     if (self.webView.isLoading) {
-        reloadItem = [[UIBarButtonItem alloc] initWithImage:[self imageNamed:@"stop"] style:UIBarButtonItemStylePlain target:self action:@selector(stopTapped:)];
+        reloadItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(stopTapped:)];
     } else {
-        reloadItem = [[UIBarButtonItem alloc] initWithImage:[self imageNamed:@"refresh"] style:UIBarButtonItemStylePlain target:self action:@selector(reloadTapped:)];
+        reloadItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadTapped:)];
     }
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTapped:)];
     UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-
+    
     [self setToolbarItems:@[flexibleSpaceItem, backItem, flexibleSpaceItem, forwardItem, flexibleSpaceItem, reloadItem, flexibleSpaceItem, shareItem, flexibleSpaceItem] animated:NO];
 }
 
