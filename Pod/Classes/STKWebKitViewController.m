@@ -13,6 +13,7 @@
 @property(nonatomic) NSMutableArray *viewConstraints;
 @property(nonatomic) UIColor *savedNavigationbarTintColor;
 @property(nonatomic) UIColor *savedToolbarTintColor;
+@property(nonatomic) UIColor *savedToolbarItemTintColor;
 
 @property(nonatomic) NSURLRequest *request;
 
@@ -106,20 +107,24 @@
     
     self.savedNavigationbarTintColor = self.navigationController.navigationBar.barTintColor;
     self.savedToolbarTintColor = self.navigationController.toolbar.barTintColor;
+    self.savedToolbarItemTintColor = self.navigationController.toolbar.tintColor;
     
     if (self.toolbarTintColor) {
         self.navigationController.toolbar.barTintColor = self.toolbarTintColor;
         self.navigationController.toolbar.backgroundColor = self.toolbarTintColor;
         self.navigationController.toolbar.tintColor = [UIColor whiteColor];
     }
+    if (self.toolbarItemTintColor) {
+        self.navigationController.toolbar.tintColor = self.toolbarItemTintColor;
+    }
     if (self.navigationBarTintColor) {
         self.navigationController.navigationBar.barTintColor = self.navigationBarTintColor;
     }
-
+    
     [self addObserver:self forKeyPath:@"webView.title" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"webView.loading" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"webView.estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
-
+    
     if (self.request) {
         [self.webView loadRequest:self.request];
     }
@@ -132,7 +137,8 @@
     self.navigationController.navigationBar.barTintColor = self.savedNavigationbarTintColor;
     [self.navigationController setToolbarHidden:self.toolbarWasHidden];
     self.navigationController.toolbar.barTintColor = self.savedToolbarTintColor;
-
+    self.navigationController.toolbar.tintColor = self.savedToolbarItemTintColor;
+    
     [self removeObserver:self forKeyPath:@"webView.title"];
     [self removeObserver:self forKeyPath:@"webView.loading"];
     [self removeObserver:self forKeyPath:@"webView.estimatedProgress"];

@@ -36,6 +36,7 @@ typedef enum {
 @property(nonatomic) NewTabOpenMode newTabOpenMode;
 
 @property(nonatomic) UIColor *toolbarTintColor;
+@property(nonatomic) UIColor *toolbarItemTintColor;
 @property(nonatomic) UIColor *navigationBarTintColor;
 
 /** use this to customize the UIActivityViewController (aka Sharing-Dialog) */
