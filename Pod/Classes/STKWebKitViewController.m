@@ -236,6 +236,20 @@
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
+    
+    UIApplication *app = [UIApplication sharedApplication];
+    NSURL         *url = navigationAction.request.URL;
+    
+    if (self.customSchemes) {
+        for (NSString *scheme in self.customSchemes) {
+            if ([url.scheme isEqualToString:scheme] && [app canOpenURL:url])
+                [app openURL:url];
+                decisionHandler(WKNavigationActionPolicyCancel);
+                return;
+            }
+        }
+    }
+    
     if (!navigationAction.targetFrame) { //this is a 'new window action' (aka target="_blank") > open this URL as configured in 'self.newTabOpenMode'. If we´re doing nothing here, WKWebView will also just do nothing. Maybe this will change in a later stage of iOS 8
         if (self.newTabOpenMode == OpenNewTabExternal) {
             NSURL *url = navigationAction.request.URL;

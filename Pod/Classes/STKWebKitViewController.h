@@ -41,4 +41,8 @@ typedef enum {
 
 /** use this to customize the UIActivityViewController (aka Sharing-Dialog) */
 @property (nonatomic) NSArray *applicationActivities;
+
+
+/*** use this to specify schemes that should be handled directly by the app ***/
+@property (strong, nonatomic) NSArray *customSchemes;
 @end
