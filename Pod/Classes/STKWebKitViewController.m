@@ -242,7 +242,7 @@
     
     if (self.customSchemes) {
         for (NSString *scheme in self.customSchemes) {
-            if ([url.scheme isEqualToString:scheme] && [app canOpenURL:url])
+            if ([url.scheme isEqualToString:scheme] && [app canOpenURL:url]) {
                 [app openURL:url];
                 decisionHandler(WKNavigationActionPolicyCancel);
                 return;
