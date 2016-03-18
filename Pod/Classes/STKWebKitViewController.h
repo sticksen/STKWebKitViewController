@@ -17,6 +17,11 @@ typedef enum {
     OpenNewTabInternal
 } NewTabOpenMode;
 
+typedef NS_ENUM(NSInteger, STKWebKitControlItemsPosition) {
+	STKWebKitControlItemsPositionBottomToolbar,
+	STKWebKitControlItemsPositionNavigationBar	//	back/fw/reload will be show in the navigation bar
+};
+
 @interface STKWebKitViewController : UIViewController <WKNavigationDelegate>
 
 + (NSBundle *)bundle;
@@ -42,7 +47,9 @@ typedef enum {
 /** use this to customize the UIActivityViewController (aka Sharing-Dialog) */
 @property (nonatomic) NSArray *applicationActivities;
 
-
 /*** use this to specify schemes that should be handled directly by the app ***/
 @property (strong, nonatomic) NSArray *customSchemes;
+
+@property (nonatomic) STKWebKitControlItemsPosition controlItemsPosition;
+
 @end
