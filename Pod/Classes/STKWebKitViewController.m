@@ -73,7 +73,7 @@
         NSAssert([NSThread isMainThread], @"WebKit is not threadsafe and this function is not executed on the main thread");
 
 		_controlItemsPosition = STKWebKitControlItemsPositionBottomToolbar;
-        
+
         self.newTabOpenMode = OpenNewTabExternal;
         self.request = request;
         if (script) {
@@ -195,18 +195,10 @@
 
 - (void)populateNavigationBar {
 	UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[self imageNamed:@"back" ] style:UIBarButtonItemStylePlain target:self action:@selector(backTapped:)];
-	if (self.webView.canGoBack) {
-		backItem.tintColor = nil;
-	} else {
-		backItem.tintColor = [UIColor lightGrayColor];
-	}
+	backItem.enabled = self.webView.canGoBack;
 
 	UIBarButtonItem *forwardItem = [[UIBarButtonItem alloc] initWithImage:[self imageNamed:@"forward"] style:UIBarButtonItemStylePlain target:self action:@selector(forwardTapped:)];
-	if (self.webView.canGoForward) {
-		forwardItem.tintColor = nil;
-	} else {
-		forwardItem.tintColor = [UIColor lightGrayColor];
-	}
+	forwardItem.enabled = self.webView.canGoForward;
 
 	UIBarButtonItem *reloadItem;
 	if (self.webView.isLoading) {

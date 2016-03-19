@@ -50,6 +50,9 @@ typedef NS_ENUM(NSInteger, STKWebKitControlItemsPosition) {
 /*** use this to specify schemes that should be handled directly by the app ***/
 @property (strong, nonatomic) NSArray *customSchemes;
 
+- (void)fillToolbar;
+- (void)populateNavigationBar;
+
 @property (nonatomic) STKWebKitControlItemsPosition controlItemsPosition;
 
 @end
