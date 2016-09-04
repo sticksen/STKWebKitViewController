@@ -35,6 +35,8 @@ typedef enum {
 /** How to open links (<a href>-tags) that have e.g. target=_blank. Internal opens the link in the existing WKWebView, external opens the operating system´s Browser */
 @property(nonatomic) NewTabOpenMode newTabOpenMode;
 
+@property(nonatomic) BOOL hideSharingOptions;
+
 @property(nonatomic) UIColor *toolbarTintColor;
 @property(nonatomic) UIColor *toolbarItemTintColor;
 @property(nonatomic) UIColor *navigationBarTintColor;
