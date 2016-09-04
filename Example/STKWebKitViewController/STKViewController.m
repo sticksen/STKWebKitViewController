@@ -33,6 +33,14 @@
     [self presentViewController:controller animated:YES completion:nil];
 }
 
+- (IBAction)openModallyWithCustomNC:(UIButton *)sender {
+	NSURL *url = [NSURL URLWithString:@"https://github.com/sticksen/STKWebKitViewController"];
+	STKWebKitViewController *controller = [[STKWebKitViewController alloc] initWithURL:url];
+	controller.controlItemsPosition = STKWebKitControlItemsPositionNavigationBar;
+	UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:controller];
+	[self presentViewController:nc animated:YES completion:nil];
+}
+
 - (IBAction)pushOnNavController:(UIButton *)sender {
     NSURL *url = [NSURL URLWithString:@"https://github.com/sticksen/STKWebKitViewController"];
     STKWebKitViewController *controller = [[STKWebKitViewController alloc] initWithURL:url];

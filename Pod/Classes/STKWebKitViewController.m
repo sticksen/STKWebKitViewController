@@ -71,7 +71,9 @@
     if (self = [super initWithNibName:nil bundle:nil]) {
         NSAssert([[UIDevice currentDevice].systemVersion floatValue] >= 8.0, @"WKWebView is available since iOS8. Use UIWebView, if you´re running an older version");
         NSAssert([NSThread isMainThread], @"WebKit is not threadsafe and this function is not executed on the main thread");
-        
+
+		_controlItemsPosition = STKWebKitControlItemsPositionBottomToolbar;
+
         self.newTabOpenMode = OpenNewTabExternal;
         self.hideSharingOptions = NO;
         self.request = request;
@@ -102,25 +104,34 @@
     NSAssert(self.navigationController, @"STKWebKitViewController needs to be contained in a UINavigationController. If you are presenting STKWebKitViewController modally, use STKModalWebKitViewController instead.");
     
     [self.view setNeedsUpdateConstraints];
-    self.toolbarWasHidden = self.navigationController.isToolbarHidden;
-    [self.navigationController setToolbarHidden:NO animated:YES];
-    [self fillToolbar];
-    
+
+	if (self.controlItemsPosition == STKWebKitControlItemsPositionBottomToolbar) {
+		self.toolbarWasHidden = self.navigationController.isToolbarHidden;
+		[self.navigationController setToolbarHidden:NO animated:YES];
+		[self fillToolbar];
+		self.savedToolbarTintColor = self.navigationController.toolbar.barTintColor;
+		self.savedToolbarItemTintColor = self.navigationController.toolbar.tintColor;
+
+		if (self.toolbarTintColor) {
+			self.navigationController.toolbar.barTintColor = self.toolbarTintColor;
+			self.navigationController.toolbar.backgroundColor = self.toolbarTintColor;
+			self.navigationController.toolbar.tintColor = [UIColor whiteColor];
+		}
+		if (self.toolbarItemTintColor) {
+			self.navigationController.toolbar.tintColor = self.toolbarItemTintColor;
+		}
+	} else {
+		[self setToolbarItems:nil];
+	}
+
     self.savedNavigationbarTintColor = self.navigationController.navigationBar.barTintColor;
-    self.savedToolbarTintColor = self.navigationController.toolbar.barTintColor;
-    self.savedToolbarItemTintColor = self.navigationController.toolbar.tintColor;
-    
-    if (self.toolbarTintColor) {
-        self.navigationController.toolbar.barTintColor = self.toolbarTintColor;
-        self.navigationController.toolbar.backgroundColor = self.toolbarTintColor;
-        self.navigationController.toolbar.tintColor = [UIColor whiteColor];
-    }
-    if (self.toolbarItemTintColor) {
-        self.navigationController.toolbar.tintColor = self.toolbarItemTintColor;
-    }
     if (self.navigationBarTintColor) {
         self.navigationController.navigationBar.barTintColor = self.navigationBarTintColor;
     }
+
+	if (self.controlItemsPosition == STKWebKitControlItemsPositionNavigationBar) {
+		[self populateNavigationBar];
+	}
     
     [self addObserver:self forKeyPath:@"webView.title" options:NSKeyValueObservingOptionNew context:NULL];
     [self addObserver:self forKeyPath:@"webView.loading" options:NSKeyValueObservingOptionNew context:NULL];
@@ -187,12 +198,53 @@
     }
 }
 
+- (void)populateNavigationBar {
+	UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[self imageNamed:@"back" ] style:UIBarButtonItemStylePlain target:self action:@selector(backTapped:)];
+	backItem.enabled = self.webView.canGoBack;
+
+	UIBarButtonItem *forwardItem = [[UIBarButtonItem alloc] initWithImage:[self imageNamed:@"forward"] style:UIBarButtonItemStylePlain target:self action:@selector(forwardTapped:)];
+	forwardItem.enabled = self.webView.canGoForward;
+
+	UIBarButtonItem *reloadItem;
+	if (self.webView.isLoading) {
+		reloadItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(stopTapped:)];
+	} else {
+		reloadItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadTapped:)];
+	}
+
+	UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTapped:)];
+
+	UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close:)];
+
+	self.navigationItem.leftBarButtonItems = @[ backItem, forwardItem, reloadItem ];
+	self.navigationItem.rightBarButtonItems = @[ closeItem, shareItem ];
+}
+
+- (void)close:(UIButton *)sender {
+
+	if (self.presentingViewController) {
+		[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+		return;
+	}
+
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"webView.title"]) {
         self.title = change[@"new"];
     } else if ([keyPath isEqualToString:@"webView.loading"]) {
-        [self fillToolbar];
+		switch (self.controlItemsPosition) {
+			case STKWebKitControlItemsPositionBottomToolbar: {
+				[self fillToolbar];
+				break;
+			}
+			case STKWebKitControlItemsPositionNavigationBar: {
+				[self populateNavigationBar];
+				break;
+			}
+		}
     } else if ([keyPath isEqualToString:@"webView.estimatedProgress"]) {
 
     }
